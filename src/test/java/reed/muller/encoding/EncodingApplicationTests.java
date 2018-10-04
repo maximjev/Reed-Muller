@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import reed.muller.encoding.service.Encoder;
 import reed.muller.encoding.service.MatrixService;
 import reed.muller.encoding.service.MessageConverter;
 
@@ -21,6 +22,9 @@ public class EncodingApplicationTests {
 
     @Autowired
     private MatrixService matrixService;
+
+    @Autowired
+    private Encoder encoder;
 
     @Test
     public void contextLoads() {
@@ -71,8 +75,25 @@ public class EncodingApplicationTests {
         };
 
         int[] vector = new int[]{2, 2, 2, 1};
-        long[] expected = new long[]{8, 8};
-        long[] result = matrixService.multiplyByVector(matrix, vector);
+        int[] expected = new int[]{8, 8};
+        int[] result = matrixService.multiplyByVector(matrix, vector);
+
+        assertArrayEquals(expected, result);
+    }
+
+    @Test
+    public void multiplyVectorByMatrix() {
+        int[][] matrix = new int[][] {
+                new int[]{1, 1, 1, 1, 1, 1, 1, 1},
+                new int[]{0, 1, 0, 1, 0, 1, 0, 1},
+                new int[]{0, 0, 1, 1, 0, 0, 1, 1},
+                new int[]{0, 0, 0, 0, 1, 1, 1, 1}
+        };
+
+        int[] vector = new int[]{1, 1, 1, 1};
+        int[] expected = new int[]{1, 2, 2, 3, 2, 3, 3, 4};
+
+        int[] result = matrixService.multiplyVectorByMatrix(vector, matrix);
 
         assertArrayEquals(expected, result);
     }
@@ -88,6 +109,18 @@ public class EncodingApplicationTests {
         matrixService.multiplyByVector(matrix, vector);
     }
 
+    @Test
+    public void test() {
+        String test = "test";
+
+        try {
+            int[] bits= messageConverter.convertToBits(test);
 
 
+            int[] result = encoder.encode(bits);
+
+        } catch (UnsupportedEncodingException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

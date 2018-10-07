@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 @Service
 public class MessageConverter {
 
-    public static String CHARSET = "UTF-8";
+    private static String CHARSET = "UTF-8";
 
     public int[] convertToBits(String message) throws UnsupportedEncodingException {
         IntBuffer buffer = ByteBuffer.wrap(message.getBytes(CHARSET)).asIntBuffer();
@@ -48,7 +48,7 @@ public class MessageConverter {
                 .collect(Collectors.joining()));
 
         List<Byte> bytes = new ArrayList<>();
-        byteString.forEach(b -> bytes.add(Byte.parseByte(b, 2)));
+        byteString.forEach(b -> bytes.add((byte)Integer.parseInt(b, 2)));
 
         return new String(Bytes.toArray(bytes), CHARSET);
     }

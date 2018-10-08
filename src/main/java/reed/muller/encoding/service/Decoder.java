@@ -22,7 +22,7 @@ public class Decoder {
         this.m = configuration.getM();
     }
 
-    public int[] replaceZeros(int[] message) {
+    private int[] replaceZeros(int[] message) {
         for (int i = 0; i < message.length; i++) {
             if (message[i] == 0) {
                 message[i] = -1;

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Reed-Muller algorithm</title>
+    <title>Spring Boot Thymeleaf Hello World Example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <link rel="stylesheet" type="text/css"
@@ -16,7 +16,7 @@
 <nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <div class="navbar-brand" href="#">Rydo-Miulerio (Reed-Muller) kodas RM(1,m)</div>
+            <a class="navbar-brand" href="#">Rydo-Miulerio (Reed-Muller) kodas RM(1,m)</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -29,25 +29,14 @@
 
 <div class="container">
 
-    <div class="row">
-        <div class="col-12">
-            <form action="#" th:action="@{/encode}" th:object="${message}" th:method="post" method="post">
-                <div class="form-group">
-                    <label for="message">Žinutė:</label>
-                    <textarea class="form-control" rows="5" th:field="*{message}" id="message"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit" value="Submit" class="btn btn-primary">Siųsti</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-12">
-            <p>Rezultatai</p>
-            <p th:text="${message.result}"></p>
-            <p>M yra</p>
-            <p th:text="${message.m}"></p>
-        </div>
+
+    <div class="starter-template">
+        <h1>Spring Boot Web Thymeleaf Example</h1>
+        <h2>
+            <span th:text="'Message: ' + ${message}"></span>
+        </h2>
     </div>
+
 </div>
 
 <script type="text/javascript"

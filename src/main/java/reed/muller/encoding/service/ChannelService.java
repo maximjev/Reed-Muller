@@ -14,9 +14,9 @@ public class ChannelService {
         this.probability = configuration.getChannelProbability();
     }
 
-    public int[] send(int[] message) {
+    private int[] send(int[] message) {
         for (int i = 0; i < message.length; i++) {
-            if ((Math.random() * 100) < probability) {
+            if (Math.random() < probability) {
                 message[i] = (message[i] + 1) % 2;
             }
         }

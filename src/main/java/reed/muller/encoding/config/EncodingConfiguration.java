@@ -1,22 +1,24 @@
 package reed.muller.encoding.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
+@ConfigurationProperties
 public class EncodingConfiguration {
 
-    @Value("encoding.m")
+    @Value("${encoding.m}")
     private int m;
 
-    @Value("encoding.channel-probability")
-    private int channelProbability;
+    @Value("${encoding.channel-probability}")
+    private double channelProbability;
 
     public int getM() {
         return m;
     }
 
-    public int getChannelProbability() {
+    public double getChannelProbability() {
         return channelProbability;
     }
 }

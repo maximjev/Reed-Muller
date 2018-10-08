@@ -31,21 +31,10 @@
 
     <div class="row">
         <div class="col-12">
-            <form action="#" th:action="@{/encode}" th:object="${message}" th:method="post" method="post">
-                <div class="form-group">
-                    <label for="message">Žinutė:</label>
-                    <textarea class="form-control" rows="5" th:field="*{message}" id="message"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit" value="Submit" class="btn btn-primary">Siųsti</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-12">
             <p>Rezultatai</p>
-            <p th:text="${message.result}"></p>
-            <p>M yra</p>
-            <p th:text="${message.m}"></p>
+            <p th:text="${result}"></p>
+            <p>M yra: <span th:text="${m}"></span></p>
+            <p>P yra: <span th:text="${p}"></span></p>
         </div>
     </div>
 </div>

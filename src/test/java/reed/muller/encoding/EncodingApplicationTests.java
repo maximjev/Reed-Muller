@@ -72,20 +72,6 @@ public class EncodingApplicationTests {
     }
 
     @Test
-    public void multiplyMatrixByVector() {
-        int[][] matrix = new int[][]{
-                new int[]{2, 1, 0, 2},
-                new int[]{1, 1, 2, 0}
-        };
-
-        int[] vector = new int[]{2, 2, 2, 1};
-        int[] expected = new int[]{8, 8};
-        int[] result = matrixService.multiplyByVector(matrix, vector);
-
-        assertArrayEquals(expected, result);
-    }
-
-    @Test
     public void multiplyVectorByMatrix() {
         int[][] matrix = new int[][]{
                 new int[]{1, 1, 1, 1, 1, 1, 1, 1},

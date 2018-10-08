@@ -1,6 +1,7 @@
 package reed.muller.encoding.service;
 
 import org.springframework.stereotype.Service;
+import reed.muller.encoding.config.EncodingConfiguration;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -18,8 +19,8 @@ public class MatrixService {
     };
 
 
-    public MatrixService() {
-        this.m = 3;
+    public MatrixService(EncodingConfiguration configuration) {
+        this.m = configuration.getM();
     }
 
     public int[] multiplyByVector(int[][] matrix, int[] vector) {

@@ -5,10 +5,12 @@ import com.google.common.base.Splitter;
 import com.google.common.primitives.Bytes;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.ArrayUtils;
+import reed.muller.encoding.exception.EncodingException;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,13 +23,16 @@ public class MessageConverter {
 
     private static String CHARSET = "UTF-8";
 
-    public int[] convertToBits(String message) throws UnsupportedEncodingException {
-        IntBuffer buffer = ByteBuffer.wrap(message.getBytes(CHARSET)).asIntBuffer();
+    public int[] convertToBits(String message) {
+            return bytesToBits(ByteBuffer.wrap(message.getBytes(Charset.defaultCharset())));
+    }
 
+    public int[] bytesToBits(ByteBuffer buffer) {
+        buffer.rewind();
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < buffer.remaining(); i++) {
+        while (buffer.hasRemaining()) {
             builder.append(String.format("%32s",
-                    Integer.toBinaryString(buffer.get(i))).replace(' ', '0'));
+                    Integer.toBinaryString(buffer.get())).replace(' ', '0'));
         }
 
         char[] bits = builder.toString().toCharArray();
@@ -40,16 +45,16 @@ public class MessageConverter {
         return result;
     }
 
-    public String convertToMessage(int[] bits) throws UnsupportedEncodingException {
+    public String convertToMessage(int[] bits) {
         Iterable<String> byteString = Splitter
                 .fixedLength(8)
                 .split(Arrays.stream(bits)
-                .mapToObj(Integer::toString)
-                .collect(Collectors.joining()));
+                        .mapToObj(Integer::toString)
+                        .collect(Collectors.joining()));
 
         List<Byte> bytes = new ArrayList<>();
-        byteString.forEach(b -> bytes.add((byte)Integer.parseInt(b, 2)));
+        byteString.forEach(b -> bytes.add((byte) Integer.parseInt(b, 2)));
 
-        return new String(Bytes.toArray(bytes), CHARSET);
+        return new String(Bytes.toArray(bytes), Charset.defaultCharset());
     }
 }

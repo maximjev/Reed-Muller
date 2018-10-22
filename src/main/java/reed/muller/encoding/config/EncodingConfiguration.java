@@ -14,11 +14,18 @@ public class EncodingConfiguration {
     @Value("${encoding.channel-probability}")
     private double channelProbability;
 
+    @Value("${multipart.location}")
+    private String storagePath;
+
     public int getM() {
         return m;
     }
 
     public double getChannelProbability() {
         return channelProbability;
+    }
+
+    public String getStoragePath() {
+        return storagePath;
     }
 }

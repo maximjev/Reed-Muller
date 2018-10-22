@@ -1,5 +1,7 @@
 package reed.muller.encoding.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reed.muller.encoding.config.EncodingConfiguration;
@@ -8,6 +10,8 @@ import reed.muller.encoding.config.EncodingConfiguration;
 public class ChannelService {
 
     private double probability;
+
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public ChannelService(EncodingConfiguration configuration) {
@@ -24,9 +28,11 @@ public class ChannelService {
     }
 
     public int[][] send(int[][] message) {
+        LOG.debug("Will send message through noisy channel");
         for (int i = 0; i < message.length; i++) {
             message[i] = send(message[i]);
         }
+        LOG.debug("sending finished");
         return message;
     }
 }

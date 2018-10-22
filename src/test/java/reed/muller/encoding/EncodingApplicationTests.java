@@ -44,13 +44,9 @@ public class EncodingApplicationTests {
                 0, 1, 1, 1, 0, 0, 1, 1,
                 0, 1, 1, 1, 0, 1, 0, 0
         };
-        try {
             int[] result = messageConverter.convertToBits(test);
 
             assertArrayEquals(expected, result);
-        } catch (UnsupportedEncodingException ex) {
-            ex.printStackTrace();
-        }
     }
 
     @Test
@@ -63,12 +59,8 @@ public class EncodingApplicationTests {
                 0, 1, 1, 1, 0, 0, 1, 1,
                 0, 1, 1, 1, 0, 1, 0, 0
         };
-        try {
             String result = messageConverter.convertToMessage(bits);
             assertEquals(expected, result);
-        } catch (UnsupportedEncodingException ex) {
-            ex.printStackTrace();
-        }
     }
 
     @Test
@@ -183,13 +175,9 @@ public class EncodingApplicationTests {
                 new int[]{ 0, 1, 1, 0, 1, 0, 0, 1},
                 new int[]{ 0, 1, 0, 1, 0, 1, 0, 1}
         };
-        try {
             int[][] result = encoder.truncateMessage(encoder.encode(messageConverter.convertToBits(test)));
 
             assertArrayEquals(expected, result);
-        } catch (UnsupportedEncodingException ex) {
-            ex.printStackTrace();
-        }
 
     }
 
@@ -197,13 +185,24 @@ public class EncodingApplicationTests {
     public void fullProcessWithoutNoiseTest() {
         String test = "test";
 
-        try {
             int[][] encoded = encoder.truncateMessage(encoder.encode(messageConverter.convertToBits(test)));
             String decoded = messageConverter.convertToMessage(decoder.decode(encoded));
 
             assertEquals(test, decoded);
-        } catch (UnsupportedEncodingException ex) {
-            ex.printStackTrace();
-        }
+    }
+
+    @Test
+    public void testByteEncodeDecode() {
+
+        int[] b = new int[] {
+                0,1,1,1,1,1,1,1
+        };
+
+        int[] expected = new int[] {
+                0,1,1,1,1,1,1,1
+        };
+        int[] result = decoder.decode(encoder.truncateMessage(encoder.encode(b)));
+
+        assertArrayEquals(result, expected);
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import reed.muller.encoding.config.EncodingConfiguration;
 import reed.muller.encoding.dto.FormDto;
 import reed.muller.encoding.exception.EncodingException;
@@ -43,11 +45,5 @@ public class EncodingController {
         model.put("p", configuration.getChannelProbability());
 
         return "processed";
-    }
-
-
-    @GetMapping("/image")
-    public String image(Map<String, Object> model) {
-        return "image";
     }
 }

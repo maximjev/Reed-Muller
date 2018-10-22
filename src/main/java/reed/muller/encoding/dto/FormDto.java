@@ -7,7 +7,4 @@ import lombok.Setter;
 @Setter
 public class FormDto {
     private String message;
-    private String result;
-    private int m;
-    private int p;
 }

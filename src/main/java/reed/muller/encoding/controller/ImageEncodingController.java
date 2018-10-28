@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import reed.muller.encoding.config.EncodingConfiguration;
+import reed.muller.encoding.service.NoEncodingService;
 import reed.muller.encoding.service.ReedMullerService;
 import reed.muller.encoding.service.StorageService;
 
@@ -18,6 +19,9 @@ public class ImageEncodingController {
 
     @Autowired
     private ReedMullerService reedMullerService;
+
+    @Autowired
+    private NoEncodingService noEncodingService;
 
     @Autowired
     private EncodingConfiguration configuration;
@@ -34,6 +38,7 @@ public class ImageEncodingController {
     public String upload(@RequestParam("file") MultipartFile file, Map<String, Object> model) {
         model.put("filename", file.getOriginalFilename());
         model.put("processedFilename", reedMullerService.processImage(file));
+        model.put("withoutEncodingFilename", noEncodingService.processImage(file));
 
         model.put("m", configuration.getM());
         model.put("p", configuration.getChannelProbability());

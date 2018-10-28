@@ -4,9 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import reed.muller.encoding.exception.EncodingException;
 
-import java.io.UnsupportedEncodingException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -51,10 +49,11 @@ public class ReedMullerService {
                 .map(imageConverter::convertToBits)
                 .map(encoder::encode)
                 .map(encoder::truncateMessage)
+                .map(channelService::send)
                 .map(decoder::decode)
                 .map(imageConverter::convertToImage)
-                .forEach(stream ->
-                        storageService.store(stream, processedFilename));
+                .forEach(bytes ->
+                        storageService.store(bytes, processedFilename));
 
         LOG.debug("process finished");
         return processedFilename;
@@ -63,20 +62,12 @@ public class ReedMullerService {
     public String process(String message) {
         LOG.debug("Will process message");
         return Stream.of(message)
-                .map(this::handleMessage)
+                .map(messageConverter::convertToBits)
                 .map(encoder::encode)
                 .map(encoder::truncateMessage)
+                .map(channelService::send)
                 .map(decoder::decode)
-                .map(this::handleBits)
+                .map(messageConverter::convertToMessage)
                 .collect(Collectors.joining());
-    }
-
-    private String handleBits(int[] bits) {
-            return messageConverter.convertToMessage(bits);
-
-    }
-
-    private int[] handleMessage(String message) {
-            return messageConverter.convertToBits(message);
     }
 }

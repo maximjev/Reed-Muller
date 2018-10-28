@@ -17,7 +17,7 @@
     <div class="navbar-header">
         <div class="navbar-brand" href="#">Rydo-Miulerio (Reed-Muller) kodas RM(1,m)</div>
     </div>
-    <div id="navbar" class="collapse navbar-collapse">
+    <div id="navbar" class="navbar-collapse">
         <ul class="nav navbar-nav">
             <li class="active"><a href="/">Teksto apdorojimas</a></li>
             <li><a href="/image">Paveiksliuko apdorojimas</a></li>
@@ -29,11 +29,17 @@
 
     <div class="row">
         <p>Rezultatai</p>
-        <div class="col-6">
-            <img th:src="${filename}" alt="">
+        <div class="col-md-4 col-lg-4">
+            <h1>Originalus paveikslelis</h1>
+            <img class="img-responsive" th:src="${filename}" alt="">
         </div>
-        <div class="col-6">
-            <img th:src="${processedFilename}" alt="">
+        <div class="col-md-4 col-lg-4">
+            <h1>Užkoduotas paveikslelis</h1>
+            <img class="img-responsive" th:src="${processedFilename}" alt="">
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <h1>Neužkoduotas paveikslelis</h1>
+            <img class="img-responsive" th:src="${withoutEncodingFilename}" alt="">
         </div>
         <p>M yra: <span th:text="${m}"></span></p>
         <p>P yra: <span th:text="${p}"></span></p>

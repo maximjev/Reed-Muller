@@ -4,27 +4,20 @@ package reed.muller.encoding.service;
 import com.google.common.base.Splitter;
 import com.google.common.primitives.Bytes;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.ArrayUtils;
-import reed.muller.encoding.exception.EncodingException;
 
-import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Service
 public class MessageConverter {
 
-    private static String CHARSET = "UTF-8";
-
     public int[] convertToBits(String message) {
-            return bytesToBits(ByteBuffer.wrap(message.getBytes(Charset.defaultCharset())));
+        return bytesToBits(ByteBuffer.wrap(message.getBytes(Charset.defaultCharset())));
     }
 
     public int[] bytesToBits(ByteBuffer buffer) {
@@ -46,15 +39,22 @@ public class MessageConverter {
     }
 
     public String convertToMessage(int[] bits) {
+        return new String(Bytes.toArray(parseBits(bits)), Charset.defaultCharset());
+    }
+
+    public List<Byte> parseBits(int[] bits) {
         Iterable<String> byteString = Splitter
-                .fixedLength(8)
+                .fixedLength(32)
                 .split(Arrays.stream(bits)
                         .mapToObj(Integer::toString)
                         .collect(Collectors.joining()));
 
         List<Byte> bytes = new ArrayList<>();
-        byteString.forEach(b -> bytes.add((byte) Integer.parseInt(b, 2)));
+        byteString.forEach(b -> bytes.add(parseBits(b)));
+        return bytes;
+    }
 
-        return new String(Bytes.toArray(bytes), Charset.defaultCharset());
+    private byte parseBits(String bits) {
+        return (byte) new BigInteger(bits, 2).intValue();
     }
 }

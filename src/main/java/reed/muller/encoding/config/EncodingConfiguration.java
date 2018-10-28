@@ -28,4 +28,12 @@ public class EncodingConfiguration {
     public String getStoragePath() {
         return storagePath;
     }
+
+    public EncodingConfiguration() {
+    }
+
+    public EncodingConfiguration(int m, double p) {
+        this.m = m;
+        this.channelProbability = p;
+    }
 }

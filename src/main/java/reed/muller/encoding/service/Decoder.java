@@ -1,7 +1,6 @@
 package reed.muller.encoding.service;
 
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import reed.muller.encoding.config.EncodingConfiguration;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static java.lang.Math.*;
+import static java.lang.Math.abs;
 
 @Service
 public class Decoder {
@@ -40,15 +39,13 @@ public class Decoder {
 
     public int[] decode(int[][] message) {
         LOG.debug("Will decode message");
-        int[] flattedResult = new int[0];
         int[][] result = new int[message.length][m + 1];
 
         for (int i = 0; i < message.length; i++) {
             result[i] = decodeLine(message[i]);
-            //flattedResult = ArrayUtils.addAll(flattedResult, decodeLine(message[i]));
         }
 
-        flattedResult = Stream.of(result)
+        int[] flattedResult = Stream.of(result)
                 .flatMapToInt(IntStream::of)
                 .toArray();
         LOG.debug("decoding finished");

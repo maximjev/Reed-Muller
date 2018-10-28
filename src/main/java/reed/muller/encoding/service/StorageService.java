@@ -8,21 +8,15 @@ import org.springframework.web.multipart.MultipartFile;
 import reed.muller.encoding.config.EncodingConfiguration;
 import reed.muller.encoding.exception.StorageException;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Iterator;
-
-import static reed.muller.encoding.utils.FileUtils.resolveExtension;
 
 @Service
 public class StorageService {
@@ -42,12 +36,18 @@ public class StorageService {
         }
     }
 
-    public void store(ByteArrayInputStream imageStream, String filename) {
+    public void store(byte[] bytes, String filename) {
         try {
 
-            BufferedImage image = ImageIO.read(imageStream);
-            ImageIO.write(image, resolveExtension(filename),
-                    new File(this.rootLocation.resolve(filename).toAbsolutePath().toString()));
+            OutputStream outputStream = new FileOutputStream(
+            new File(this.rootLocation.resolve(filename).toAbsolutePath().toString()));
+            Files.write(this.rootLocation.resolve(filename).toAbsolutePath(), bytes);
+
+            //outputStream.write(bytes, 0, bytes.length);
+            //outputStream.close();
+        //    BufferedImage image = ImageIO.read(new File(this.rootLocation.resolve(filename).toAbsolutePath().toString()));
+          //  ImageIO.write(image, resolveExtension(filename),
+            //        new File(this.rootLocation.resolve(filename).toAbsolutePath().toString()));
         } catch (IOException ex) {
             throw new StorageException("Failed to store processed file " + filename);
         }

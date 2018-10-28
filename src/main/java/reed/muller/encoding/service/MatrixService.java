@@ -52,9 +52,11 @@ public class MatrixService {
     public int[] vectorMatrixDotProduct(int[] vector, int[][] matrix) {
         int[] result = new int[vector.length];
 
-        for (int i = 0; i < matrix[0].length; i++)
-            for (int j = 0; j < vector.length; j++)
+        for (int i = 0; i < matrix[0].length; i++) {
+            for (int j = 0; j < vector.length; j++) {
                 result[i] += vector[j] * matrix[j][i];
+            }
+        }
 
         return result;
     }

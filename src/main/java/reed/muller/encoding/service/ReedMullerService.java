@@ -41,6 +41,11 @@ public class ReedMullerService {
         this.storageService = storageService;
     }
 
+    /*
+     * atlieka: siunčia užkoduotą failą kanalu
+     * ima: failas
+     * grąžina: dekoduoto failo pavadinimas
+     */
     public String processImage(MultipartFile file) {
         LOG.debug("Will process image: " + file.getOriginalFilename());
         storageService.store(file);
@@ -51,7 +56,7 @@ public class ReedMullerService {
                 .map(encoder::truncateMessage)
                 .map(channelService::send)
                 .map(decoder::decode)
-                .map(imageConverter::convertToImage)
+                .map(bits -> imageConverter.convertToImage(bits, file.getOriginalFilename()))
                 .forEach(bytes ->
                         storageService.store(bytes, processedFilename));
 
@@ -59,6 +64,11 @@ public class ReedMullerService {
         return processedFilename;
     }
 
+    /*
+     * atlieka: siunčia užkoduota žinutę kanalu
+     * ima: žinutė
+     * grąžina: dekoduota žinutė
+     */
     public String process(String message) {
         LOG.debug("Will process message");
         return Stream.of(message)

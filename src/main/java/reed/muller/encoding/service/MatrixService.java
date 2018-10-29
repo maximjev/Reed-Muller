@@ -23,6 +23,11 @@ public class MatrixService {
         this.m = configuration.getM();
     }
 
+    /*
+    * atlieka: daugina matricą iš vektoriaus
+    * ima: matrica, vektorius
+    * grąžina: vektorius
+    */
     public int[] multiplyByVector(int[][] matrix, int[] vector) {
         if (matrix.length != vector.length) {
             throw new IllegalArgumentException("Matrix height and vector length should match");
@@ -36,6 +41,11 @@ public class MatrixService {
                 .toArray();
     }
 
+    /*
+    * atlieka: daugina vektorių iš matricos
+    * ima: vektorius, matrica
+    * grąžina: vektorius
+    */
     public int[] multiplyVectorByMatrix(int[] vector, int[][] matrix) {
         if (matrix.length != vector.length) {
             throw new IllegalArgumentException("Matrix height and vector length should match");
@@ -48,22 +58,11 @@ public class MatrixService {
                 ).mapToInt(Math::toIntExact)
                 .toArray();
     }
-
-    public int[] vectorMatrixDotProduct(int[] vector, int[][] matrix) {
-        if (matrix.length != vector.length) {
-            throw new IllegalArgumentException("Matrix height and vector length should match");
-        }
-        int[] result = new int[vector.length];
-
-        for (int i = 0; i < matrix[0].length; i++) {
-            for (int j = 0; j < vector.length; j++) {
-                result[i] += vector[j] * matrix[j][i];
-            }
-        }
-
-        return result;
-    }
-
+    /*
+    * atlieka: kronecker product daugybą
+    * ima: 2 matricos
+    * grąžina: daugybos rezultatas, kiekvienas matricos A elementas padaugintas iš matricos B
+    */
     public int[][] kroneckerProduct(int[][] matrixA, int[][] matrixB) {
         int[][] result = new int[matrixA.length * matrixB.length][matrixA[0].length * matrixB[0].length];
 
@@ -80,6 +79,11 @@ public class MatrixService {
         return result;
     }
 
+    /*
+    * atlieka: sugeneruoja vienetinę matricą
+    * ima: dydis
+    * grąžina: vienetinė matrica
+    */
     public int[][] identityMatrix(int size) {
         int[][] identityMatrix = new int[size][size];
 
@@ -89,6 +93,11 @@ public class MatrixService {
         return identityMatrix;
     }
 
+    /*
+    * atlieka: sugeneruoja Hadamarto matricą pagal apibrėžimą
+    * ima: Hadamarto matricos i parametras
+    * grąžina: Hadamarto matrica
+    */
     public int[][] hadamardMatrix(int i) {
         return kroneckerProduct(
                 kroneckerProduct(identityMatrix((int) pow(2, m - i)), baseHadamardMatrix),

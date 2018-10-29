@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Stream.of;
 
+
 @Service
 public class BasicScenarioService {
 
@@ -30,6 +31,11 @@ public class BasicScenarioService {
         this.channelService = channelService;
     }
 
+    /*
+    * atlieka: užkoduoja vektorių
+    * ima: vektorius
+    * grąžina: užkoduotas vektorius
+    */
     public String encode(String message) {
         return of(message)
                 .map(messageConverter::validateVector)
@@ -41,6 +47,11 @@ public class BasicScenarioService {
                 .collect(joining());
     }
 
+    /*
+     * atlieka: užkoduoja vektorių ir siunčia kanalu
+     * ima: vektorius
+     * grąžina: iškraipytas užkoduotas vektorius
+     */
     public String sendThroughChannel(String message) {
         return of(message)
                 .map(messageConverter::validateVector)
@@ -53,6 +64,11 @@ public class BasicScenarioService {
                 .collect(joining());
     }
 
+    /*
+     * atlieka: dekoduoja vektorių
+     * ima: užkoduotas vektorius
+     * grąžina: vektorius
+     */
     public String decode(String vector) {
         return of(vector)
                 .map(messageConverter::validateVector)

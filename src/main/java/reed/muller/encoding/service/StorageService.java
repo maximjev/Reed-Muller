@@ -8,10 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import reed.muller.encoding.config.EncodingConfiguration;
 import reed.muller.encoding.exception.StorageException;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,6 +24,9 @@ public class StorageService {
         this.rootLocation = Paths.get(configuration.getStoragePath());
     }
 
+    /*
+    * atlieka: išsaugo failą
+    */
     public void store(MultipartFile file) {
         try {
             Files.copy(file.getInputStream(),
@@ -36,23 +36,21 @@ public class StorageService {
         }
     }
 
+    /*
+    * atlieka: išsaugo failą
+    * ima: baitų seka, failo pavadinimas
+    */
     public void store(byte[] bytes, String filename) {
         try {
-
-            OutputStream outputStream = new FileOutputStream(
-            new File(this.rootLocation.resolve(filename).toAbsolutePath().toString()));
             Files.write(this.rootLocation.resolve(filename).toAbsolutePath(), bytes);
-
-            //outputStream.write(bytes, 0, bytes.length);
-            //outputStream.close();
-        //    BufferedImage image = ImageIO.read(new File(this.rootLocation.resolve(filename).toAbsolutePath().toString()));
-          //  ImageIO.write(image, resolveExtension(filename),
-            //        new File(this.rootLocation.resolve(filename).toAbsolutePath().toString()));
         } catch (IOException ex) {
             throw new StorageException("Failed to store processed file " + filename);
         }
     }
 
+    /*
+    * atlieka: užkrauna failą atvaizdavimui
+    */
     public Resource loadFile(String filename) {
         try {
             Path file = rootLocation.resolve(filename);
@@ -67,10 +65,16 @@ public class StorageService {
         }
     }
 
+    /*
+    * atlieka: ištrina failus iš direktorijos
+    */
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
+    /*
+    * atlieka: sukuria direktoriją failų laikymui
+    */
     public void init() {
         try {
             Files.createDirectory(rootLocation);

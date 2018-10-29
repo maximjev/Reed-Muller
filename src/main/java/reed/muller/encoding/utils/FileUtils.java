@@ -1,12 +1,17 @@
 package reed.muller.encoding.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.lang.System.arraycopy;
+
 public class FileUtils {
 
     private static String PROCESSED_IMAGE_POSTFIX = "-processed";
 
     private static String WITHOUT_ENCODING_POSTFIX = "-without-encoding";
 
-    private static byte[] HEADER_INFO;
+    private static Map<String, byte[]> headerInfo = new HashMap<>();
 
     public static String appendPostfix(String filename) {
         int lastDot = filename.lastIndexOf('.');
@@ -18,18 +23,18 @@ public class FileUtils {
         return filename.substring(0, lastDot) + WITHOUT_ENCODING_POSTFIX + filename.substring(lastDot);
     }
 
-    public static String resolveExtension(String filename) {
-        int lastDot = filename.lastIndexOf('.');
-        return filename.substring(lastDot + 1);
+    /*
+    * atlieka: išsaugo failo viršelio informaciją
+    */
+    public static void saveHeader(byte[] bytes, String filename) {
+        headerInfo.put(filename, bytes);
     }
 
-    public static void saveHeader(byte[] bytes) {
-        HEADER_INFO = bytes;
-    }
-
-    public static void appendHeader(byte[] bytes) {
-        for (int i = 0; i < HEADER_INFO.length; i++) {
-            bytes[i] = HEADER_INFO[i];
-        }
+    /*
+    * atlieka: prijungia failo viršelio informaciją prie apdoroto failo
+    */
+    public static void appendHeader(byte[] bytes, String filename) {
+        byte[] header = headerInfo.get(filename);
+        arraycopy(header, 0, bytes, 0, header.length);
     }
 }

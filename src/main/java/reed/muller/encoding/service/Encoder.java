@@ -31,6 +31,11 @@ public class Encoder {
         generatorMatrix(0, width, height);
     }
 
+    /*
+    * atlieka: rekursiškai sukūria generacijų matricą
+    * ima: pasirinkto sektoriaus pradžia, pasirinkto sektoriaus pabaiga, dabartinė eilutė
+    * grąžina: generacijų matrica
+    */
     private void generatorMatrix(int partitionWidth, int width, int currentRow) {
         for (int i = (width + partitionWidth) / 2; i < width; i++) {
             generatorMatrix[currentRow-1][i] = 1;
@@ -41,6 +46,12 @@ public class Encoder {
         }
     }
 
+
+    /*
+    * atlieka: užkoduoja apjungtą pradinį vektorių
+    * ima: apjungtas pradinis vektorius
+    * grąžina: užkoduotų vektorių masyvas
+    */
     public int[][] encode(int[] message) {
         LOG.debug("Will encode message");
         int matrixHeight = this.m + 1;
@@ -58,6 +69,10 @@ public class Encoder {
         return result;
     }
 
+
+    /*
+    * atlieka: apskaičiuoja užkoduotų vektorių masyvo dydi (jeigu nesigauna be liekanos)
+    */
     private int calculateSize(int messageLength, int matrixHeight) {
         if(messageLength % matrixHeight == 0) {
             return messageLength / matrixHeight;
@@ -66,6 +81,9 @@ public class Encoder {
         }
     }
 
+    /*
+    * atlieka: kadangi skaičiavimai vyksta virš kūno F(2), dalina kodavimo rezultatus moduliu 2
+    */
     public int[][] truncateMessage(int[][] message) {
         for (int i = 0; i < message.length; i++) {
             message[i] = truncateLine(message[i]);
@@ -73,6 +91,9 @@ public class Encoder {
         return message;
     }
 
+    /*
+     * atlieka: kadangi skaičiavimai vyksta virš kūno F(2), dalina kodavimo rezultatus moduliu 2
+     */
     private int[] truncateLine(int[] line) {
         for (int i = 0; i < line.length; i++) {
             line[i] = line[i] % 2;

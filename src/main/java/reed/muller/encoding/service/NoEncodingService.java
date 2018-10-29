@@ -35,14 +35,18 @@ public class NoEncodingService {
         this.messageConverter = messageConverter;
     }
 
+    /*
+    * atlieka: siunčia neužkoduotą failą kanalu
+    * ima: failas
+    * grąžina: iškraipyto failo pavadinimas
+    */
     public String processImage(MultipartFile file) {
         LOG.debug("Will send through channel image: " + file.getOriginalFilename());
         String processedFilename = appendPostfixWithoutEncoding(file.getOriginalFilename());
-        //String extension = resolveExtension(file.getOriginalFilename());
         Stream.of(file)
                 .map(imageConverter::convertToBits)
                 .map(channelService::send)
-                .map(bits -> imageConverter.convertToImage(bits))
+                .map(bits -> imageConverter.convertToImage(bits, file.getOriginalFilename()))
                 .forEach(bytes ->
                         storageService.store(bytes, processedFilename));
 
@@ -50,6 +54,11 @@ public class NoEncodingService {
         return processedFilename;
     }
 
+    /*
+    * atlieka: siunčia neužkoduotą žinutę kanalu
+    * ima: žinutė
+    * grąžina: iškraipyta žinutė
+    */
     public String processMessage(String message) {
         return Stream.of(message)
                 .map(messageConverter::convertToBits)

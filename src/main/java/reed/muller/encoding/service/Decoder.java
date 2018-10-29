@@ -28,6 +28,11 @@ public class Decoder {
         this.m = configuration.getM();
     }
 
+    /*
+    * atlieka: pakeičia nulius į -1 pagal apibrėžimą
+    * ima: vektorius
+    * grąžina: vektorius
+    */
     private int[] replaceZeros(int[] message) {
         for (int i = 0; i < message.length; i++) {
             if (message[i] == 0) {
@@ -37,6 +42,11 @@ public class Decoder {
         return message;
     }
 
+    /*
+    * atlieka: dekoduoja užkoduotų vektorių masyvą
+    * ima: užkoduotų vektorių masyvas
+    * grąžina: apjungti dekoduoti vektoriai
+    */
     public int[] decode(int[][] message) {
         LOG.debug("Will decode message");
         int[][] result = new int[message.length][m + 1];
@@ -52,6 +62,11 @@ public class Decoder {
         return flattedResult;
     }
 
+    /*
+    * atlieka: dekoduoja užkoduotą vektorių
+    * ima: užkoduotas vektorius
+    * grąžina: dekoduotas vektorius
+    */
     public int[] decodeLine(int[] baseLine) {
         int largest = 0;
         int largestIndex = 0;
@@ -59,7 +74,7 @@ public class Decoder {
         int[] line = replaceZeros(baseLine);
 
         for (int i = 1; i <= m; i++) {
-            line = matrixService.vectorMatrixDotProduct(line, matrixService.hadamardMatrix(i));
+            line = matrixService.multiplyVectorByMatrix(line, matrixService.hadamardMatrix(i));
 
             for (int j = 0; j < line.length; j++) {
                 if (abs(line[j]) > abs(largest)) {
@@ -76,6 +91,11 @@ public class Decoder {
         return decodedMessage;
     }
 
+    /*
+    * atlieka: didžiausio elemento poziciją konvertuoja į dvejetainę
+    * ima: didžiausio elemento pozicija
+    * grąžina: dekoduotas vektorius išskyrus pirmą elementą
+    */
     private int[] toBinaryRep(int num) {
         int[] result = new int[m + 1];
         int i = 1;

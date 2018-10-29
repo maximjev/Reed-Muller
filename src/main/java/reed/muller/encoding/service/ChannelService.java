@@ -18,6 +18,11 @@ public class ChannelService {
         this.probability = configuration.getChannelProbability();
     }
 
+    /*
+    * atlieka: siuntimas triukšmingu kanalu
+    * ima: vektorius
+    * grąžina: iškraipytas vektorius
+    */
     public int[] send(int[] message) {
         for (int i = 0; i < message.length; i++) {
             if (isError()) {
@@ -27,6 +32,11 @@ public class ChannelService {
         return message;
     }
 
+    /*
+     * atlieka: siuntimas triukšmingu kanalu
+     * ima: vektorių masyvas
+     * grąžina: iškraipytų vektorių masyvas
+     */
     public int[][] send(int[][] message) {
         LOG.debug("Will send message through noisy channel");
         for (int i = 0; i < message.length; i++) {

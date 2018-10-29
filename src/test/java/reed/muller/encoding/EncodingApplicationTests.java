@@ -117,7 +117,7 @@ public class EncodingApplicationTests {
         int[] vector = new int[]{1, 1, 1, 1, 0, 1, 0, 1};
         int[] expected = new int[]{1, 2, 2, 3, 4, 5, 5, 6};
 
-        int[] result = matrixService.vectorMatrixDotProduct(vector, matrix);
+        int[] result = matrixService.multiplyVectorByMatrix(vector, matrix);
 
         assertArrayEquals(expected, result);
     }

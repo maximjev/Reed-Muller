@@ -17,10 +17,20 @@ import java.util.stream.Collectors;
 @Service
 public class MessageConverter {
 
+    /*
+    * atlieka: konvertuoja žinutę į bitų masyvą
+    * ima: žinutė
+    * grąžina: bitų masyvas
+    */
     public int[] convertToBits(String message) {
         return bytesToBits(ByteBuffer.wrap(message.getBytes(Charset.defaultCharset())));
     }
 
+    /*
+    * atlieka: konvertuoja baitų buferį į bitų masyvą
+    * ima: baitų buferis
+    * grąžina: bitų masyvas
+    */
     public int[] bytesToBits(ByteBuffer buffer) {
         buffer.rewind();
         StringBuilder builder = new StringBuilder();
@@ -39,10 +49,20 @@ public class MessageConverter {
         return result;
     }
 
+    /*
+    * atlieka: konvertuoja bitų masyvą į žinutę
+    * ima: bitų masyvas
+    * grąžina: žinutė
+    */
     public String convertToMessage(int[] bits) {
         return new String(Bytes.toArray(parseBits(bits)), Charset.defaultCharset());
     }
 
+    /*
+    * atlieka: konvertuoja bitų masyvą į baitų sąrašą
+    * ima: bitų masyvas
+    * grąžina: baitų sąrašas
+    * */
     public List<Byte> parseBits(int[] bits) {
         Iterable<String> byteString = Splitter
                 .fixedLength(32)
@@ -59,6 +79,9 @@ public class MessageConverter {
         return (byte) new BigInteger(bits, 2).intValue();
     }
 
+    /*
+    * atlieka: konvertuoja bitų vektorių į bitų masyvą
+    */
     public int[] parseVectorBits(String vector) {
         String[] numbers = vector.split("");
         int[] bits = new int[numbers.length];
@@ -69,6 +92,9 @@ public class MessageConverter {
         return bits;
     }
 
+    /*
+    * atlieka: konvertuoja bitų seką į bitų vektorių
+    */
     public String parseBitsToVector(int[] bits) {
         StringBuilder builder = new StringBuilder();
 
@@ -78,6 +104,9 @@ public class MessageConverter {
         return builder.toString();
     }
 
+    /*
+    * atlieka: patikrina ar vektorius priklauso kūnui F(2)
+    */
     public String validateVector(String vector) {
         String regex = "[0-1]+";
         if(vector.matches(regex)) {

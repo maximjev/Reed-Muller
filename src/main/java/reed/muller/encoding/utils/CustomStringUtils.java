@@ -43,6 +43,9 @@ public class CustomStringUtils {
         }
     }
 
+    /*
+    * atlieka: paskaičiuoja klaidas, skirtumus tarp eilučių ir jų pozicijas
+    */
     public static String calculateErrors(String str1, String str2) {
         return buildDifferenceString(compare(str1, str2));
     }

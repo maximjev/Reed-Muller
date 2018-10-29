@@ -29,25 +29,35 @@ public class ImageConverter {
         this.messageConverter = messageConverter;
     }
 
+    /*
+    * atlieka: konvertuoja failą į vektorių
+    * ima: failas
+    * grąžina: vektorius
+    */
     public int[] convertToBits(MultipartFile file) {
         try {
             LOG.debug("Will convert to bits file: " + file.getOriginalFilename());
             byte[] bytes = IOUtils.toByteArray(file.getInputStream());
             ByteBuffer buffer = ByteBuffer.wrap(bytes);
 
-            saveHeader(Arrays.copyOfRange(bytes, 0, 54));
+            saveHeader(Arrays.copyOfRange(bytes, 0, 54), file.getOriginalFilename());
             return messageConverter.bytesToBits(buffer);
         } catch (IOException ex) {
             throw new ParsingException("Failed to convert image to bytes");
         }
     }
 
-    public byte[] convertToImage(int[] bits) {
+    /*
+    * atlieka: konvertuoja vektorių į baitų seką
+    * ima: vektorius
+    * grąžina: baitų seka
+    */
+    public byte[] convertToImage(int[] bits, String filename) {
         LOG.debug("Will convert bits to image");
         List<Byte> bytes = messageConverter.parseBits(bits);
 
         byte[] byteArray = Bytes.toArray(bytes);
-        appendHeader(byteArray);
+        appendHeader(byteArray, filename);
         return byteArray;
     }
 }

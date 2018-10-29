@@ -50,6 +50,9 @@ public class MatrixService {
     }
 
     public int[] vectorMatrixDotProduct(int[] vector, int[][] matrix) {
+        if (matrix.length != vector.length) {
+            throw new IllegalArgumentException("Matrix height and vector length should match");
+        }
         int[] result = new int[vector.length];
 
         for (int i = 0; i < matrix[0].length; i++) {

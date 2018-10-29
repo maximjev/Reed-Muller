@@ -31,10 +31,12 @@ public class ImageEncodingController {
 
     @GetMapping("/image")
     public String image(Map<String, Object> model) {
+        model.put("m", configuration.getM());
+        model.put("p", configuration.getChannelProbability());
         return "image";
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/image")
     public String upload(@RequestParam("file") MultipartFile file, Map<String, Object> model) {
         model.put("filename", file.getOriginalFilename());
         model.put("processedFilename", reedMullerService.processImage(file));

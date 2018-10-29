@@ -5,33 +5,34 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <link rel="stylesheet" type="text/css"
-          href="webjars/bootstrap/4.0.0-alpha/css/bootstrap.min.css" />
-
-    <link rel="stylesheet" th:href="@{/../css/style.css}"
-          href="../css/style.css" />
+          th:href="@{/webjars/bootstrap/4.0.0-alpha/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 
 </head>
 <body>
 
 <nav class="navbar navbar-inverse">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Rydo-Miulerio (Reed-Muller) kodas RM(1,m)</a>
+            <div class="navbar-brand" th:inline="text">Rydo-Miulerio (Reed-Muller) kodas RM(1,[[${m}]])</div>
         </div>
         <div id="navbar" class="navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Teksto apdorojimas</a></li>
-                <li><a href="/image">Paveiksliuko apdorojimas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/vector">Vektorio apdorojimas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">Teksto apdorojimas</a></li>
+                <li class="active nav-item"><a class="nav-link" href="/image">Paveiksliuko apdorojimas</a></li>
             </ul>
+            <span class="navbar-text navbar-brand" th:inline="text">Triukšmingo kanalo iškraipymo tikimybė: [[${p}]]</span>
         </div>
 </nav>
 
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <form action="#" th:action="@{/upload}" method="post" enctype="multipart/form-data">
+            <p></p>
+            <form action="#" th:action="@{/image}" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label class="btn btn-default btn-file" for="file">Nuotrauka:</label>
-                    <input  style="display:none" class="form-control" size="60" type="file" id="file" name="file">
+                    <input class="form-control" size="60" type="file" accept="image/bmp" id="file" name="file">
                 </div>
                 <div class="form-group">
                     <button type="submit" value="Submit" class="btn btn-primary">Siųsti</button>
@@ -42,8 +43,9 @@
 </div>
 
 <script type="text/javascript"
-        src="webjars/jquery/2.1.4/jquery.min.js"></script>
+        th:src="@{webjars/jquery/2.1.4/jquery.min.js}"></script>
 <script type="text/javascript"
-        src="webjars/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+        th:src="@{webjars/bootstrap/4.0.0-alpha/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 </body>
 </html>

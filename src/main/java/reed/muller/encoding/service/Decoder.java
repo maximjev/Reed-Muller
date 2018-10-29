@@ -52,7 +52,7 @@ public class Decoder {
         return flattedResult;
     }
 
-    private int[] decodeLine(int[] baseLine) {
+    public int[] decodeLine(int[] baseLine) {
         int largest = 0;
         int largestIndex = 0;
 

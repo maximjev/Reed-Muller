@@ -4,6 +4,7 @@ package reed.muller.encoding.service;
 import com.google.common.base.Splitter;
 import com.google.common.primitives.Bytes;
 import org.springframework.stereotype.Service;
+import reed.muller.encoding.exception.EncodingException;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
@@ -56,5 +57,33 @@ public class MessageConverter {
 
     private byte parseBits(String bits) {
         return (byte) new BigInteger(bits, 2).intValue();
+    }
+
+    public int[] parseVectorBits(String vector) {
+        String[] numbers = vector.split("");
+        int[] bits = new int[numbers.length];
+
+        for (int i = 0; i < bits.length; i++) {
+            bits[i] = Integer.parseInt(numbers[i]);
+        }
+        return bits;
+    }
+
+    public String parseBitsToVector(int[] bits) {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < bits.length; i++) {
+            builder.append(bits[i]);
+        }
+        return builder.toString();
+    }
+
+    public String validateVector(String vector) {
+        String regex = "[0-1]+";
+        if(vector.matches(regex)) {
+            return vector;
+        } else {
+            throw new EncodingException("Invalid vector elements");
+        }
     }
 }

@@ -75,12 +75,11 @@ public class Decoder {
 
         for (int i = 1; i <= m; i++) {
             line = matrixService.multiplyVectorByMatrix(line, matrixService.hadamardMatrix(i));
-
-            for (int j = 0; j < line.length; j++) {
-                if (abs(line[j]) > abs(largest)) {
-                    largest = line[j];
-                    largestIndex = j;
-                }
+        }
+        for (int j = 0; j < line.length; j++) {
+            if (abs(line[j]) > abs(largest)) {
+                largest = line[j];
+                largestIndex = j;
             }
         }
         int[] decodedMessage = toBinaryRep(largestIndex);
